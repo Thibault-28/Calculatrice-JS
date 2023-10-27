@@ -26,7 +26,7 @@ const screenText = document.querySelector("#screen");
 
 /* Variables */
 
-let operator = "+";
+let operator = "";
 let numSave2 = "";
 let numSave1 = "";
 let operatorChosen = false;
@@ -40,10 +40,15 @@ let operatorChosen = false;
 
 numButtons.forEach((button) => {
   button.addEventListener("click", (event) => {
+    console.log(operatorChosen);
+
     event.preventDefault();
     if (!operatorChosen) {
       handleSaveNum1(button.textContent);
       screenText.textContent = numSave1;
+    } else {
+      handleSaveNum2(button.textContent);
+      screenText.textContent = numSave2;
     }
   });
 });
@@ -55,17 +60,6 @@ operatorButtons.forEach((button) => {
     operatorChosen = true;
     console.log(operator);
     screenText.textContent = operator;
-    numButtons.forEach((button) => {
-      button.addEventListener("click", (event) => {
-        event.preventDefault();
-
-        if (operatorChosen) {
-          operatorChosen = false;
-          handleSaveNum2(button.textContent);
-          screenText.textContent = numSave2;
-        }
-      });
-    });
   });
 });
 
@@ -93,10 +87,48 @@ const handleEqual = (n1, operator, n2) => {
   operatorChosen = false;
 };
 
+c.addEventListener("click", () => {
+  reset();
+  screenText.textContent = "0";
+  console.log(reset);
+});
+
+const deleteLastNumber = () => {
+  console.log(`Hola ${numSave1} /// ${numSave2}`);
+  let newNum1 = numSave1.slice(0, -1);
+  numSave1 = newNum1;
+  console.log(numSave1);
+  console.log(newNum1);
+  screenText.textContent = numSave1;
+
+  // let newNum2 = numSave2.slice(0, -1);
+  // numSave2 = newNum2;
+  // console.log(numSave2);
+  // console.log(newNum2);
+  // screenText.textContent = numSave1;
+
+  if (screenText.textContent == "") {
+    screenText.textContent = "0";
+  }
+
+  //   if (!numSave1 && !numSave2) {
+  //     numSave1.slice(0);
+  //     console.log(del);
+  //   } else if (numSave2) {
+  //     numSave2.slice(-1);
+  //   }
+};
+
+del.addEventListener("click", () => {
+  deleteLastNumber();
+});
+
 const reset = () => {
-  numSave1 = 0;
-  numSave2 = 0;
-  operator = "+";
+  numSave1 = "";
+  numSave2 = "";
+  operator = "";
+  num1 = "";
+  num2 = "";
 };
 
 const operation = (num1, operator = operator, num2) => {
